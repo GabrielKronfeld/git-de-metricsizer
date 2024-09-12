@@ -1,1 +1,10 @@
-wqwqwqwqwqwq:
+are git commit metrics stressing you out? wish you could see a sea of green on your contributions on your profile? 
+Fear not, the git-de-metricsizer is here to help! 
+Say goodbye to stripes of blank dots, with the git you'll be able to have as many commits as you can tolerate running a cron job!
+Impress your friends! Terrify your enemies! Be the 10X developer you know you are(n't) at heart!
+Our patented automatic-commit technology will have you creating, modifying, commiting and more! 
+Simply clone this repo, fill the necessary variables at the top of the header file, and point a cron job as followed in our example. Within hours you'll be automatically sending commits to a repository and greening your contribuitions.
+
+
+
+Commit *quality* not quaranteed. 
