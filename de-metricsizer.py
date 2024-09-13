@@ -51,8 +51,36 @@ from nltk.corpus import words
 
 nl.download('words')
 
+#return a  name built from 1-3 random words
+#todo: verify edge case of having an identical name in dir. very unlikely but rigor is good practice.
+def buildName():
+    builtName=getRandomWord()
+    i=2
+    while i >0:
+        if random.random()>0.5:
+            buildName+=getRandomWord()
+
+    return builtName
+
+#need to decode the directories and files that exist first. might want to do this in a separate method
+
+def whatinDir(dirpath):
+
+    test=subprocess.run(['ls','-l'],cwd=dirpath,capture_output=True)
+    og=test.stdout.decode('ascii').split('\n')
+    # print('test:',test)
+    og.pop(0)#removes the count of files in dir
+    for i in og:
+        print(i)
+    #verify we're in the right location
+    subprocess.run('pwd')
+
 def movetoRepo(repoPath):
     os.chdir(repoPath)
+    test=subprocess.run(['ls','-l'],cwd='/',capture_output=True)
+    og=test.stdout.decode('ascii')
+    print('test:',test)
+    print(type(og))
     #verify we're in the right location
     subprocess.run('pwd')
 
@@ -65,13 +93,12 @@ def makeFolder(folderName):
         print("folderName var is not a string! no folder was made")
 
 def makeFile(name):
-    subprocess.run(['echo', "hello worlds!",str(name)])
+    subprocess.run(['touch', str(name)])
     
     pass
 def changeFile(file):
     #we can cat the file, push it to a string, manip the string then push the string back to the file
     pass
-
 
 def writeData():
     pass
@@ -91,4 +118,4 @@ print(getRandomWord())
 
 
 makeFile(5)
-movetoRepo(repoPath)
+whatinDir('/')
