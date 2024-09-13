@@ -26,18 +26,69 @@ TEMPORARY (HAH!)
  we will instead just pull a random word from a dictionary and append it to the file we choose, if we choose to make a file. 
 
  things to consider: what permissions will the executing file have? will it have write permissions? I hope so!
+
+ we can write random words
+ we can build standard forms of programming blocks, such as
+    variable creation,
+    loops
+    changing variables
+    outputting data
+
+
+Steps:  move to nonsense machine
+        make changes
+        commit changes to git
+        exit
 '''
 
 #!usr/env/bin python
 
-import random 
+import random
 import nltk as nl
+import subprocess
+import os
+from nltk.corpus import words
+
+nl.download('words')
+
+def movetoRepo(repoPath):
+    os.chdir(repoPath)
+    #verify we're in the right location
+    subprocess.run('pwd')
+
+def getRandomWord():
+    return DICTIONARY[round(DICTLEN*random.random())]#returns a random word
+
+def makeFolder(folderName):
+    try: subprocess.run(['mkdir', folderName])
+    except TypeError:
+        print("folderName var is not a string! no folder was made")
+
+def makeFile(name):
+    subprocess.run(['echo', "hello worlds!",str(name)])
+    
+    pass
+def changeFile(file):
+    #we can cat the file, push it to a string, manip the string then push the string back to the file
+    pass
+
+
+def writeData():
+    pass
+
+def writeLoop():
+    return("")    
 
 #we add some variance to make some days have fewer, and some have more commits, to give a more human contribution page. this can be removed at your preference
-if random.random <0.25:
+if (random.random() < 0.25):
     print('we do dont do stuff this time')
     exit()
-
+DICTIONARY = words.words()
 print('we are doing stuff this time!')
+DICTLEN = len(DICTIONARY)
+repoPath = '/Users/gabrielkronfeld/programming/python/The Nonsense Machine'
+print(getRandomWord())
 
 
+makeFile(5)
+movetoRepo(repoPath)
