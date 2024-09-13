@@ -40,82 +40,34 @@ Steps:  move to nonsense machine
         commit changes to git
         exit
 '''
-
 #!usr/env/bin python
 
 import random
-import nltk as nl
-import subprocess
-import os
-from nltk.corpus import words
+import RepoModifier
 
-nl.download('words')
-
-#return a  name built from 1-3 random words
-#todo: verify edge case of having an identical name in dir. very unlikely but rigor is good practice.
-def buildName():
-    builtName=getRandomWord()
-    i=2
-    while i >0:
-        if random.random()>0.5:
-            buildName+=getRandomWord()
-
-    return builtName
-
-#need to decode the directories and files that exist first. might want to do this in a separate method
-
-def whatinDir(dirpath):
-
-    test=subprocess.run(['ls','-l'],cwd=dirpath,capture_output=True)
-    og=test.stdout.decode('ascii').split('\n')
-    # print('test:',test)
-    og.pop(0)#removes the count of files in dir
-    for i in og:
-        print(i)
-    #verify we're in the right location
-    subprocess.run('pwd')
-
-def movetoRepo(repoPath):
-    os.chdir(repoPath)
-    test=subprocess.run(['ls','-l'],cwd='/',capture_output=True)
-    og=test.stdout.decode('ascii')
-    print('test:',test)
-    print(type(og))
-    #verify we're in the right location
-    subprocess.run('pwd')
-
-def getRandomWord():
-    return DICTIONARY[round(DICTLEN*random.random())]#returns a random word
-
-def makeFolder(folderName):
-    try: subprocess.run(['mkdir', folderName])
-    except TypeError:
-        print("folderName var is not a string! no folder was made")
-
-def makeFile(name):
-    subprocess.run(['touch', str(name)])
-    
-    pass
-def changeFile(file):
-    #we can cat the file, push it to a string, manip the string then push the string back to the file
-    pass
-
-def writeData():
-    pass
-
-def writeLoop():
-    return("")    
-
+#all actual modification and navigation functionality will be kept in a separate class.
 #we add some variance to make some days have fewer, and some have more commits, to give a more human contribution page. this can be removed at your preference
-if (random.random() < 0.25):
+if (random.random() < 0.0):
     print('we do dont do stuff this time')
     exit()
-DICTIONARY = words.words()
-print('we are doing stuff this time!')
-DICTLEN = len(DICTIONARY)
+
 repoPath = '/Users/gabrielkronfeld/programming/python/The Nonsense Machine'
-print(getRandomWord())
+ProgPath='/Users/gabrielkronfeld/programming'
+print('we are doing stuff this time!')
+modifier = RepoModifier.RandomWordModifier(ProgPath,"no data")
 
+#traverse repo, see what files and folders exist. 
+    #make list of files and folders?
+dirs,files=modifier.whatInRepo(ProgPath)
 
-makeFile(5)
-whatinDir('/')
+if (modifier.containsDupes(files) or modifier.containsDupes(dirs)):
+    print("duplicate exists! might be a copied file somewhere")
+
+# take a 1/3n(?) chance to make a new dir, where n is #dirs.
+    #we can randomly select a dir to append a new dir into
+# ELSE IF, take a 1/3n chance to make a new file in a given dir,
+    #we can randomly select a dir to add a new file into
+#ELSE, modify an extant file. 
+    #we can randomly select an extant file
+
+    #I would LOVE to write a way to weigh the creation in a manner to resemble real repos, but I suppose I would need some data for that. maybe later. 
