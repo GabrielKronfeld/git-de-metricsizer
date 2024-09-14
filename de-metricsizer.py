@@ -58,17 +58,20 @@ modifier = RepoModifier.RandomWordModifier(repoPath,"no data")
 #traverse repo, see what files and folders exist. 
     #make list of files and folders?
 dirs,files=modifier.whatInRepo(repoPath)
+dirs.append(repoPath)
 
+print(dirs,files)
 if (modifier.containsDupes(files) or modifier.containsDupes(dirs)):
     print("duplicate exists! might be a copied file somewhere")
 
 # take a 1/3n(?) chance to make a new dir, where n is #dirs.
-if random.random()<(1/(3*len(dirs))):
+if random.random()<(1/(3*len(dirs))) or False:
     #get random name
-    name=modifier.buildName()
     #get random directory to make a child dir in
-    path=dirs[random.randint(0,len(dirs)-1)]
     #make the new folder
+    name=modifier.buildName()
+    path=dirs[random.randint(0,len(dirs)-1)]
+    print(name,path)
     modifier.makeFolder(path,name)
 
     #we should make a file in the directory now, and then write to it. 
@@ -76,9 +79,10 @@ if random.random()<(1/(3*len(dirs))):
     #we can randomly select a dir to append a new dir into
 # ELSE IF, take a 1/n chance to make a new file in a given dir,
 #we can randomly select a dir to add a new file into
-elif (random.random()<(1/(len(files)))):
+elif (random.random()<(1/(len(files))) or True):
     name=modifier.buildName()
     path=dirs[random.randint(0,len(dirs)-1)]
+    print(path,name)
     if modifier.changeFile(path,name):
         print('made a new file!')
     else:

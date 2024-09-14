@@ -16,6 +16,8 @@ class RepoModifier:
         self.data=data
 
     #need to decode the directories and files that exist first. might want to do this in a separate method
+    #this is a single-layer version of whatInRepo. maybe helpful for digging at a specific level but
+    #mostly rendered obsolete by whatInRepo for our purposes
     def whatInDir(self, dirpath):
         print(dirpath)
         test=subprocess.run(['ls'],cwd=dirpath,capture_output=True)
@@ -42,6 +44,8 @@ class RepoModifier:
             x,y=RepoModifier.whatInRepo(self,dirname)
             dirs.extend(x)
             files.extend(y)
+        #finally add the path in which we started
+        dirs.append(repoPath)
         return dirs,files
 
     def containsDupes(self,name):
@@ -58,7 +62,10 @@ class RepoModifier:
 
     #makes a folder named the given name
     def makeFolder(self,path,folderName):
-        try: subprocess.run(['mkdir', folderName],cwd=path)
+        print (path)
+        try: 
+            subprocess.run(['mkdir', folderName], cwd=path)
+            print('ran subprocess')
         except TypeError:
             print("folderName var is not a string! no folder was made")
 
@@ -66,14 +73,20 @@ class RepoModifier:
 
     def makeFile(self,name):
         subprocess.run(['touch', str(name)])
+    
+    def makeFile(self,path,name):
+        subprocess.run(['touch', str(name)],cwd=path)
+    
         
     #changes an extant file. abstract method.    
     def changeFile(self,file):
         subprocess.run(['echo','TESTFORNOW','>',file])
-        
+    
     #makes a new file if it doesn't exist, else it changes the file.
     def changeFile(self,path,file):
-        if file not in RepoModifier.whatinDir(path):
+        RepoModifier.makeFile(path,file)
+        return(True)
+        if file not in RepoModifier.whatInDir(path):
             RepoModifier.makeFile(file)
             return(True)
 
@@ -130,8 +143,3 @@ class blockfunctionsModifier(RepoModifier):
     def writeLoop(self,):
         pass   
 
-
-newModifierObj = RandomWordModifier('/Users/gabrielkronfeld/programming','')
-
-#mod.makeFile(mod.buildName())
-print(newModifierObj.whatInDir(newModifierObj.path))
