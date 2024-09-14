@@ -58,19 +58,24 @@ modifier = RepoModifier.RandomWordModifier(repoPath,"no data")
 #traverse repo, see what files and folders exist. 
     #make list of files and folders?
 dirs,files=modifier.whatInRepo(repoPath)
-#dirs.append(repoPath)
+#must add root of dir, as not included in whatInRepo
+dirs.append(repoPath)
 
-print(dirs,files)
-if (modifier.containsDupes(files) or modifier.containsDupes(dirs)):
-    print("duplicate exists! might be a copied file somewhere")
-
+if (modifier.containsDupes(files)):
+    print("duplicate exists in files! might be a copied file somewhere")
+#dirs contains dupes. should find out whyyy.
+if modifier.containsDupes(dirs):
+    for i in dirs: 
+        print(i)
+    print("duplicate exists in files! might be a copied file somewhere")
+    
 
 #get random name (random string)
 #get random directory
 name=modifier.buildName()
 path=dirs[random.randint(0,len(dirs)-1)]
 randomText=int(random.random()*10)
-print(name,path)
+#print(name,path)
 
 ##we can definitely clean up the logic. it's ugly.
 
@@ -96,6 +101,10 @@ elif (random.random()<(1/(len(dirs)))):
 #ELSE, modify an extant file. 
     #we can randomly select an extant file
 else: 
+
+    print('modifying extant file: ',path)
     path=files[random.randint(0,len(files)-1)]
     modifier.alterSpecificFile(path,randomText)
     #I would LOVE to write a way to weigh the creation in a manner to resemble real repos, but I suppose I would need some data for that. maybe later. 
+
+#

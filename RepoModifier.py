@@ -30,11 +30,10 @@ class RepoModifier:
         subprocess.run('pwd')
 
 
-    #returns a list of all DIRS and files in the repo, given the root of the repo
+    #returns a list of all DIRS and files in the repo, minus the root of the repo. append that after method call.
     def whatInRepo(self,repoPath):
         dirs=[]
         files=[]
-        print(repoPath)
         for i in os.scandir(repoPath):
             if (i.is_dir() and (i.name != '.git')):#excluding .git dir
                 dirs.append(i.path)#.path? .name?
@@ -44,8 +43,6 @@ class RepoModifier:
             x,y=RepoModifier.whatInRepo(self,dirname)
             dirs.extend(x)
             files.extend(y)
-        #finally add the path in which we started
-        dirs.append(repoPath)
         return dirs,files
 
     def containsDupes(self,name):
