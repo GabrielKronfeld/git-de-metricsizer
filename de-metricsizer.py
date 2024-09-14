@@ -52,22 +52,43 @@ if (random.random() < 0.0):
     exit()
 
 repoPath = '/Users/gabrielkronfeld/programming/python/The Nonsense Machine'
-ProgPath='/Users/gabrielkronfeld/programming'
 print('we are doing stuff this time!')
-modifier = RepoModifier.RandomWordModifier(ProgPath,"no data")
+modifier = RepoModifier.RandomWordModifier(repoPath,"no data")
 
 #traverse repo, see what files and folders exist. 
     #make list of files and folders?
-dirs,files=modifier.whatInRepo(ProgPath)
+dirs,files=modifier.whatInRepo(repoPath)
 
 if (modifier.containsDupes(files) or modifier.containsDupes(dirs)):
     print("duplicate exists! might be a copied file somewhere")
 
 # take a 1/3n(?) chance to make a new dir, where n is #dirs.
+if random.random()<(1/(3*len(dirs))):
+    #get random name
+    name=modifier.buildName()
+    #get random directory to make a child dir in
+    path=dirs[random.randint(0,len(dirs)-1)]
+    #make the new folder
+    modifier.makeFolder(path,name)
+
+    #we should make a file in the directory now, and then write to it. 
+
     #we can randomly select a dir to append a new dir into
-# ELSE IF, take a 1/3n chance to make a new file in a given dir,
-    #we can randomly select a dir to add a new file into
+# ELSE IF, take a 1/n chance to make a new file in a given dir,
+#we can randomly select a dir to add a new file into
+elif (random.random()<(1/(len(files)))):
+    name=modifier.buildName()
+    path=dirs[random.randint(0,len(dirs)-1)]
+    if modifier.changeFile(path,name):
+        print('made a new file!')
+    else:
+        print('randomly generated a name that already exists! running the modification protocol on it.')
+    
 #ELSE, modify an extant file. 
     #we can randomly select an extant file
-
+else: 
+    name=modifier.buildName()
+    path=files[random.randint(0,len(files)-1)]
+    if modifier.changeFile(path,name):
+        pass
     #I would LOVE to write a way to weigh the creation in a manner to resemble real repos, but I suppose I would need some data for that. maybe later. 

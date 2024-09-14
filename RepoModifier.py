@@ -57,8 +57,8 @@ class RepoModifier:
         subprocess.run('pwd')
 
     #makes a folder named the given name
-    def makeFolder(self,folderName):
-        try: subprocess.run(['mkdir', folderName])
+    def makeFolder(self,path,folderName):
+        try: subprocess.run(['mkdir', folderName],cwd=path)
         except TypeError:
             print("folderName var is not a string! no folder was made")
 
@@ -69,9 +69,15 @@ class RepoModifier:
         
     #changes an extant file. abstract method.    
     def changeFile(self,file):
-        if file not in RepoModifier.whatinDir(RepoModifier.path):
-            RepoModifier.makeFile(file)
+        subprocess.run(['echo','TESTFORNOW','>',file])
         
+    #makes a new file if it doesn't exist, else it changes the file.
+    def changeFile(self,path,file):
+        if file not in RepoModifier.whatinDir(path):
+            RepoModifier.makeFile(file)
+            return(True)
+
+        #writeToFile
         #we can cat the file, push it to a string, manip the string then push the string back to the file
 
     #makes a name to be given to other methods
