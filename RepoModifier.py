@@ -62,6 +62,7 @@ class RepoModifier:
 
     #makes a folder named the given name
     def makeFolder(self,path,folderName):
+        print ("makeFolder")
         print (path)
         try: 
             subprocess.run(['mkdir', folderName], cwd=path)
@@ -69,32 +70,18 @@ class RepoModifier:
         except TypeError:
             print("folderName var is not a string! no folder was made")
 
-    #makes a file named the given name
 
-    def makeFile(self,name):
-        subprocess.run(['touch', str(name)])
+    #changes an extant file, or creates it if it DNE 
+    #abstract method.    
+    def alterSpecificFile(self,file):
+        pass
     
-    def makeFile(self,path,name):
-        subprocess.run(['touch', str(name)],cwd=path)
-    
-        
-    #changes an extant file. abstract method.    
-    def changeFile(self,file):
-        subprocess.run(['echo','TESTFORNOW','>',file])
-    
-    #makes a new file if it doesn't exist, else it changes the file.
-    def changeFile(self,path,file):
-        RepoModifier.makeFile(path,file)
-        return(True)
-        if file not in RepoModifier.whatInDir(path):
-            RepoModifier.makeFile(file)
-            return(True)
+    #abstract
+    def buildName():
+        pass
 
-        #writeToFile
-        #we can cat the file, push it to a string, manip the string then push the string back to the file
-
-    #makes a name to be given to other methods
-    def buildName(self):
+    #abstract
+    def buildFileInput():
         pass
 
 #uses chatgpt to make file/folder names and to fill files
@@ -131,6 +118,18 @@ class RandomWordModifier(RepoModifier):
             i-=1
 
         return builtName
+    
+    def buildFileInput(self,length):
+        outputToFile=""
+        while length>0:
+            outputToFile+=(self.getRandomWord())
+            length-=1
+        return outputToFile
+
+    #for now we only write
+    def alterSpecificFile(self,filePath, stringLen):  
+        f=open(filePath,'a')
+        return subprocess.run(['echo',self.buildFileInput(stringLen)],stdout=f)
 
 #uses pre-designed groups of text and function blocks to make file/folder names and fill files. 
 #designed to make 

@@ -58,41 +58,44 @@ modifier = RepoModifier.RandomWordModifier(repoPath,"no data")
 #traverse repo, see what files and folders exist. 
     #make list of files and folders?
 dirs,files=modifier.whatInRepo(repoPath)
-dirs.append(repoPath)
+#dirs.append(repoPath)
 
 print(dirs,files)
 if (modifier.containsDupes(files) or modifier.containsDupes(dirs)):
     print("duplicate exists! might be a copied file somewhere")
 
+
+#get random name (random string)
+#get random directory
+name=modifier.buildName()
+path=dirs[random.randint(0,len(dirs)-1)]
+randomText=int(random.random()*10)
+print(name,path)
+
+##we can definitely clean up the logic. it's ugly.
+
+
 # take a 1/3n(?) chance to make a new dir, where n is #dirs.
-if random.random()<(1/(3*len(dirs))) or False:
-    #get random name
-    #get random directory to make a child dir in
+if random.random()<(1/(3*len(dirs))):
     #make the new folder
-    name=modifier.buildName()
-    path=dirs[random.randint(0,len(dirs)-1)]
-    print(name,path)
     modifier.makeFolder(path,name)
+    path=path+'/'+str(name)
+    fileName=modifier.buildName()+'.nonsense'
+    #make a new file in the directory, and then write to it.
+    print('making a new file named ',fileName, 'in new dir: ',path)
+    modifier.alterSpecificFile(path,fileName,randomText)
 
-    #we should make a file in the directory now, and then write to it. 
-
-    #we can randomly select a dir to append a new dir into
+#we can randomly select a dir to append a new dir into
 # ELSE IF, take a 1/n chance to make a new file in a given dir,
 #we can randomly select a dir to add a new file into
-elif (random.random()<(1/(len(files))) or True):
-    name=modifier.buildName()
-    path=dirs[random.randint(0,len(dirs)-1)]
-    print(path,name)
-    if modifier.changeFile(path,name):
-        print('made a new file!')
-    else:
-        print('randomly generated a name that already exists! running the modification protocol on it.')
-    
+elif (random.random()<(1/(len(dirs)))):
+
+    print('making a new file named ',name, 'in extant dir: ',path)
+    modifier.alterSpecificFile(path+'/'+name+'.nonsense',randomText)
+    #if the file already exists, we just write to it. edge case avoided!
 #ELSE, modify an extant file. 
     #we can randomly select an extant file
 else: 
-    name=modifier.buildName()
     path=files[random.randint(0,len(files)-1)]
-    if modifier.changeFile(path,name):
-        pass
+    modifier.alterSpecificFile(path,randomText)
     #I would LOVE to write a way to weigh the creation in a manner to resemble real repos, but I suppose I would need some data for that. maybe later. 
