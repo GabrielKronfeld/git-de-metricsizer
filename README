@@ -13,9 +13,20 @@ Commit *quality* not quaranteed.
 
 Step 1: make a cron job pointing to your project, running at a desired frequency. I suggest 4 times a day?
 example: <in bash> crontab -e
-        0 10,12,16,18 * * * ~/temp.txt
-the above opens your table of cron jobs, automatically ran commands in Unix given the date.
+        0 10,12,16,18 * * * /bin/python /Users/You/temp.txt
+the above opens your table of cron jobs, automatically runs commands in Unix given the date.
 left to right being the minute, hour, day-of-month, month, day-of-week, and the command to execute
 the above example automatically executes the code in temp.txt every day at 10AM,12PM,4PM, and 6PM. 
 
 make sure to replace the above with the times you want and the location of the de-metricsizer.py file! (and that you have python installed!)
+
+Step 2: verify you are pointing directly to the location of python on your machine (hint: whereis python on linux) and to the file you want to run.
+
+Step 3: verify your cron job actually has the permissions to execute git push commands! You should perform your remote git commands (like git push) over ssh, otherwise you'll need to configure your local git commands to be user agnostic. you'll need to either ensure you've hardcoded your username and password into your https url or credentials so another user other than you can run the command (like root, for the cron job) or run the command over ssh HIGHLY RECOMMENDED! 
+
+        create a public/private ssh key pair (follow the github guide if you don't know how),
+        then change your remote url (which you can see in .git/config) to be an ssh path instead of https, 
+        so git@github.com:<your-user-name>/<your-repo-name>
+
+        to continue using https, perhaps try (I have not verified this) changing your remote url to 
+        https://<your-user-name>:<your-password>@github.com/<your-user-name>/<your-repo-name>

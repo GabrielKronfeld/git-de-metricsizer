@@ -3,8 +3,6 @@ import random
 import nltk as nl
 import subprocess
 import os
-import math
-import time
 from nltk.corpus import words
 
 
@@ -124,7 +122,7 @@ class RandomWordModifier(RepoModifier):
         return outputToFile
 
     #for now we only write
-    def alterSpecificFile(self,filePath, stringLen):  
+    def alterSpecificFile(self,filePath, stringLen):
         f=open(filePath,'a')
         return subprocess.run(['echo',self.buildFileInput(stringLen)],stdout=f)
 
