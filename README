@@ -11,12 +11,22 @@ Commit *quality* not quaranteed.
 
 
 
+
+
+
+
+
+
 Step 1: make a cron job pointing to your project, running at a desired frequency. I suggest 4 times a day?
 example: <in bash> crontab -e
         0 10,12,16,18 * * * /bin/python /Users/You/temp.txt
 the above opens your table of cron jobs, automatically runs commands in Unix given the date.
 left to right being the minute, hour, day-of-month, month, day-of-week, and the command to execute
 the above example automatically executes the code in temp.txt every day at 10AM,12PM,4PM, and 6PM. 
+
+make sure you have crontab conrol permissions (your user account is either in crontab.allow or NOT in crontab.deny files)
+    edit your crontab to point to the python repo on your machine, and to the file
+    make sure that this file has execute permissions (eg: chmod 755 de-metricsizer.py)    
 
 make sure to replace the above with the times you want and the location of the de-metricsizer.py file! (and that you have python installed!)
 

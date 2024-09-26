@@ -37,11 +37,7 @@ Steps:  move to nonsense machine
         commit changes to git
         exit
 
-to put in README:
-requirements:
-    make sure you have crontab conrol permissions (your user account is either in crontab.allow or NOT in crontab.deny files)
-    edit your crontab to point to the python repo on your machine, and to the file
-    make sure that this file has execute permissions (eg: chmod 755 de-metricsizer.py)       
+      
 '''
 
 import random
