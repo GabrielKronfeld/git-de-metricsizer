@@ -27,9 +27,8 @@ class RepoModifier:
         #verify we're in the right location
         subprocess.run('pwd')
 
-
-    #returns a list of all DIRS and files in the repo, minus the root of the repo. append that after method call.
-    def whatInRepo(self,repoPath):
+    #returns a list of all DIRS and files in the repo, minus the root of the repo.
+    def buildPaths(self, repoPath):
         dirs=[]
         files=[]
         for i in os.scandir(repoPath):
@@ -38,9 +37,17 @@ class RepoModifier:
             if i.is_file():
                 files.append(i.path)
         for dirname in list(dirs):
-            x,y=RepoModifier.whatInRepo(self,dirname)
+            x,y=RepoModifier.buildPaths(self,dirname)
             dirs.extend(x)
             files.extend(y)
+        return dirs,files
+
+    # once a list of all dirs + files is created, we must append the root of the repo. 
+    # This is done to avoid repeated data when traveling recursively in buildPaths
+    def whatInRepo(self,repoPath):
+        dirs,files=RepoModifier.buildPaths(self,repoPath)
+        dirs.append(repoPath)
+
         return dirs,files
 
     def containsDupes(self,name):

@@ -36,7 +36,6 @@ Steps:  move to nonsense machine
 
         commit changes to git
         exit
-
       
 '''
 
@@ -64,10 +63,8 @@ def makeChanges(rootPath):
     modifier = RepoModifier.RandomWordModifier(rootPath,"no data")
 
     #traverse repo, see what files and folders exist. 
-        #make list of files and folders?
+    #make list of all files and folders, with full path for both.
     dirs,files=modifier.whatInRepo(rootPath)
-    #must add root of dir, as not included in whatInRepo
-    dirs.append(rootPath)
 
     if (modifier.containsDupes(files)):
         print("duplicate exists in files! might be a copied file somewhere")
@@ -105,8 +102,11 @@ def makeChanges(rootPath):
     #ELSE, modify a randomly selected extant file. 
     else: 
 
-        print('modifying extant file: ',path)
         path=files[random.randint(0,len(files)-1)]
+        #prevent nonsense from being written into README. if README is in the path name, get a new path.
+        while '/README' in path:
+            path=files[random.randint(0,len(files)-1)]
+        print('modifying extant file: ',path)
         modifier.alterSpecificFile(path,randomText)
         #I would LOVE to write a way to weigh the creation in a manner to resemble real repos, but I suppose I would need some data for that. maybe later. 
 
