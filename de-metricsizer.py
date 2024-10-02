@@ -55,7 +55,7 @@ def makeChanges(rootPath):
 
     #all actual modification and navigation functionality will be kept in a separate class.
     #we add some variance to make some days have fewer, and some have more commits, to give a more human contribution page. this can be removed at your preference
-    if (random.random() < 0.0):
+    if (random.random() < 0.2):
         print('we do dont do stuff this time')
         exit()
     

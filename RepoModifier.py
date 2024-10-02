@@ -124,7 +124,7 @@ class RandomWordModifier(RepoModifier):
     def buildFileInput(self,length):
         outputToFile=""
         while length>0:
-            outputToFile+=(self.getRandomWord())
+            outputToFile+=(self.getRandomWord()+" ")
             length-=1
         return outputToFile
 
